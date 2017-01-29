@@ -1,0 +1,22 @@
+build:
+  image: golang:1.8
+  pull: true
+  environment:
+    - BUILD_NUMBER=$$BUILD_NUMBER
+  commands:
+    - make deps
+    - make build
+
+publish:
+  docker:
+    username: $$DOCKER_USER
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: $$DOCKER_REPO
+    tag:
+        - "$$BUILD_NUMBER"
+        - "latest"
+    force_tag: true
+    file: Dockerfile
+    when:
+      branch: [master] 

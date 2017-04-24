@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	iris "gopkg.in/kataras/iris.v5"
 )
 
@@ -10,13 +12,18 @@ func init() {
 
 func main() {
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9292"
+	}
+
 	iris.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
 		ctx.Write("all go!")
 		ctx.SetStatusCode(200)
 		responseHeaders(ctx, "GET")
 	})
 
-	iris.Listen(":9292")
+	iris.Listen(":" + port)
 }
 
 func responseHeaders(ctx *iris.Context, methods string) {

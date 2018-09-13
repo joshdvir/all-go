@@ -8,8 +8,6 @@ pipeline:
     force_tag: true
     file: Dockerfile
     secrets: [ docker_username, docker_password ]
-    when:
-      event: tag
 
   release:
     image: golang:1.10

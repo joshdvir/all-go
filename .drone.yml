@@ -15,4 +15,4 @@ pipeline:
     image: golang:1.10
     secrets: [ github_token ]
     commands:
-      curl -sL https://git.io/goreleaser | bash --snapshot
+      curl -sL https://git.io/goreleaser --snapshot | bash

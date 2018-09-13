@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-
 	iris "gopkg.in/kataras/iris.v5"
 )
 

@@ -3,6 +3,15 @@ pipeline:
     image: plugins/git
     tags: true
 
+  release:
+    image: golang:1.10
+    secrets: [ github_token ]
+    commands:
+      - make deps
+      - curl -sL https://git.io/goreleaser | bash
+    when:
+      event: [ push, tag ]
+
   # docker:
   #   image: plugins/docker:latest
   #   repo: joshdvir/all-go
@@ -14,13 +23,5 @@ pipeline:
   #   secrets: [ docker_username, docker_password ]
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
-  # when:
+  #   when:
   #     event: [ push, tag ]
-
-  release:
-    image: golang:1.10
-    secrets: [ github_token ]
-    commands:
-      curl -sL https://git.io/goreleaser | bash
-    when:
-      event: [ push, tag ]

@@ -1,3 +1,6 @@
+workspace:
+  base: /go
+  path: src/bitbucket.org/joshdvir/all-go
 pipeline:
   clone:
     image: plugins/git

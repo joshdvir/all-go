@@ -2,7 +2,7 @@
 go:
   image: golang:1.10
   command: tail -f /dev/null
-  # ports:
-  #   - "9292:9292"
+  ports:
+    - "9292:9292"
   volumes:
     - ./:/go/src/all-go

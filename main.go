@@ -2,31 +2,28 @@ package main
 
 import (
 	"os"
-	iris "gopkg.in/kataras/iris.v5"
+	"github.com/kataras/iris"
 )
 
-func init() {
-	iris.Config.ReadBufferSize = 1024 * 200
-}
-
 func main() {
+	app := iris.New()
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "9292"
 	}
 
-	iris.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
-		ctx.Write("all go!")
-		ctx.SetStatusCode(200)
-		responseHeaders(ctx, "GET")
+	app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
+		ctx.Writef("all go!")
+		ctx.StatusCode(200)
+		responseHeaders(ctx, "GET,POST")
 	})
 
-	iris.Listen(":" + port)
+	app.Run(iris.Addr(":" + port))
 }
 
-func responseHeaders(ctx *iris.Context, methods string) {
-	ctx.SetHeader("Access-Control-Allow-Origin", "*")
-	ctx.SetHeader("Access-Control-Allow-Methods", methods)
-	ctx.SetHeader("Access-Control-Max-Age", "3600")
+func responseHeaders(ctx iris.Context, methods string) {
+	ctx.Header("Access-Control-Allow-Origin", "*")
+	ctx.Header("Access-Control-Allow-Methods", methods)
+	ctx.Header("Access-Control-Max-Age", "3600")
 }

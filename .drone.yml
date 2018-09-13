@@ -1,6 +1,6 @@
 pipeline:
   # docker:
-  #   image: joshdvir/drone-docker-bash
+  #   image: plugins/docker:latest
   #   repo: joshdvir/all-go
   #   tag:
   #     - "${DRONE_BUILD_NUMBER}"
@@ -10,9 +10,13 @@ pipeline:
   #   secrets: [ docker_username, docker_password ]
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
+  # when:
+  #     event: [ push, tag ]
 
   release:
     image: golang:1.10
     secrets: [ github_token ]
     commands:
       curl -sL https://git.io/goreleaser --snapshot | bash
+    when:
+      event: [ push, tag ]

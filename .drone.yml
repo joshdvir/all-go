@@ -8,7 +8,7 @@ pipeline:
 
   release:
     image: golang:1.10
-    secrets: [ github_token ]
+    secrets: [ github_token, put_bintray_secret ]
     commands:
       - make deps
       - curl -sL https://git.io/goreleaser | bash

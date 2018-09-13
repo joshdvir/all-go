@@ -1,4 +1,8 @@
 pipeline:
+  clone:
+    image: plugins/git
+    tags: true
+
   # docker:
   #   image: plugins/docker:latest
   #   repo: joshdvir/all-go

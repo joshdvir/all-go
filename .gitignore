@@ -2,3 +2,4 @@ build/*
 all-go
 main
 .DS_Store
+.history

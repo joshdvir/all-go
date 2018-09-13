@@ -1,0 +1,51 @@
+project_name: all-go
+
+builds:
+  -
+    env:
+      - CGO_ENABLED=0
+    binary: all-go
+
+archive:
+  replacements:
+    darwin: Darwin
+    linux: Linux
+    windows: Windows
+    386: i386
+    amd64: x86_64
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+
+nfpm:
+  name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  replacements:
+    amd64: 64-bit
+    386: 32-bit
+    darwin: macOS
+    linux: Tux
+  vendor: Josh Dvir
+  homepage: https://josh.dvir.co.uk/
+  maintainer: Josh Dvir <josh@dvir.us>
+  formats:
+    - deb
+
+release:
+  github:
+    owner: joshdvir
+    name: all-go
+
+puts:
+  - name: bintray
+    target: https://api.bintray.com/content/joshdvir/all-go/{{ .ProjectName }}/{{ .Version }}/
+    username: joshdvir

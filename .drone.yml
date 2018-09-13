@@ -1,22 +1,20 @@
-build:
-  image: golang:1.8
-  pull: true
-  environment:
-    - BUILD_NUMBER=$$BUILD_NUMBER
-  commands:
-    - make deps
-    - make build
-
-publish:
+pipeline:
   docker:
-    username: $$DOCKER_USER
-    password: $$DOCKER_PASS
-    email: $$DOCKER_EMAIL
-    repo: $$DOCKER_REPO
+    image: plugins/docker:latest
+    repo: joshdvir/all-go
     tag:
-        - "$$BUILD_NUMBER"
-        - "latest"
+      - "${DRONE_BUILD_NUMBER}"
+      - "latest"
     force_tag: true
     file: Dockerfile
+    secrets: [ docker_username, docker_password ]
     when:
-      branch: [master] 
+      event: tag
+
+  release:
+    image: golang:1.10
+    secrets: [ github_token ]
+    commands:
+      curl -sL https://git.io/goreleaser | bash
+    when:
+      event: tag

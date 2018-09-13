@@ -8,14 +8,9 @@ pipeline:
     force_tag: true
     file: Dockerfile
     secrets: [ docker_username, docker_password ]
-    when:
-      event: [ push, tag ]
-
 
   release:
     image: golang:1.10
     secrets: [ github_token ]
     commands:
       curl -sL https://git.io/goreleaser | bash
-    when:
-      event: tag

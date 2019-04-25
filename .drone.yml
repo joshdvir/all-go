@@ -1,4 +1,3 @@
----
 kind: pipeline
 name: default
 
@@ -56,19 +55,19 @@ steps:
 kind: secret
 name: github_token
 get:
-  path: secrets/drone/data/github
+  path: drone/github
   name: token
 
 ---
 kind: secret
 name: docker_password
 get:
-  path: secrets/drone/data/docker
+  path: drone/docker
   name: docker_password
 
 ---
 kind: secret
 name: docker_username
 get:
-  path: secrets/drone/data/docker
+  path: drone/docker
   name: docker_username

@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"fmt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 )
@@ -26,7 +27,7 @@ func main() {
 		// Query appends the url query to the Path.
 		Query: true,
 
-		Columns: true,
+		// Columns: true,
 
 		// if !empty then its contents derives from `ctx.Values().Get("logger_message")
 		// will be added to the logs.
@@ -42,6 +43,7 @@ func main() {
 	// app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
 		ctx.Writef("all go!")
 		ctx.StatusCode(200)
+		fmt.Fprintf(os.Stdout, "request: %s", ctx.FormValues())
 		responseHeaders(ctx, "GET,POST")
 	})
 

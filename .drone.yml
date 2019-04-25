@@ -55,8 +55,8 @@ steps:
 kind: secret
 name: github_token
 get:
-  path: drone/github
-  name: token
+  path: secret/stam
+  name: stam
 
 ---
 kind: secret

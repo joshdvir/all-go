@@ -46,8 +46,8 @@ release:
     name: all-go
   name_template: "{{.Tag}}"
 
-puts:
-  - name: bintray
-    mode: binary
-    target: https://api.bintray.com/content/joshdvir/all-go/{{ .ProjectName }}/{{ .Version }}/
-    username: joshdvir
+# puts:
+#   - name: bintray
+#     mode: binary
+#     target: https://api.bintray.com/content/joshdvir/all-go/{{ .ProjectName }}/{{ .Version }}/
+#     username: joshdvir

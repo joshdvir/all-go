@@ -1,28 +1,73 @@
+---
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
 workspace:
   base: /go
   path: src/bitbucket.org/joshdvir/all-go
-pipeline:
-  clone:
-    image: plugins/git
+
+steps:
+- name: clone
+  pull: default
+  image: plugins/git
+  settings:
     tags: true
 
-  release:
-    image: golang:1.10
-    secrets: [ github_token, put_bintray_secret ]
-    commands:
-      - make deps
-      - curl -sL https://git.io/goreleaser | bash
-    when:
-      event: [ push, tag ]
+- name: release
+  pull: default
+  image: golang:1.10
+  commands:
+  - make deps
+  - "curl -sL https://git.io/goreleaser | bash"
+  environment:
+    GITHUB_TOKEN:
+      from_secret: github_token
+  when:
+    event:
+    - push
+    - tag
 
-  docker:
-    image: plugins/docker:latest
+- name: docker
+  pull: default
+  image: plugins/docker:latest
+  settings:
+    file: Dockerfile
+    force_tag: true
     repo: joshdvir/all-go
     tag:
-      - "${DRONE_BUILD_NUMBER}"
-      - "latest"
-    force_tag: true
-    file: Dockerfile
-    secrets: [ docker_username, docker_password ]
-    when:
-      event: [ push, tag ]
+    - "${DRONE_BUILD_NUMBER}"
+    - latest
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    event:
+    - push
+    - tag
+
+---
+kind: secret
+name: github_token
+get:
+  path: secrets/drone/data/github
+  name: token
+
+---
+kind: secret
+name: docker_password
+get:
+  path: secrets/drone/data/docker
+  name: docker_password
+
+---
+kind: secret
+name: docker_username
+get:
+  path: secrets/drone/data/docker
+  name: docker_username

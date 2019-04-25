@@ -1,0 +1,30 @@
+workspace:
+  base: /go
+  path: src/bitbucket.org/joshdvir/all-go
+pipeline:
+  clone:
+    image: plugins/git
+    tags: true
+
+  release:
+    image: golang:1.10
+    secrets: [ github_token, put_bintray_secret ]
+    commands:
+      - make deps
+      - curl -sL https://git.io/goreleaser | bash
+    when:
+      event: [ push, tag ]
+
+  docker:
+    image: plugins/docker:latest
+    repo: joshdvir/all-go
+    tag:
+      - "${DRONE_BUILD_NUMBER}"
+      - "latest"
+    force_tag: true
+    file: Dockerfile
+    secrets: [ docker_username, docker_password ]
+    when:
+      event: [ push, tag ]
+
+

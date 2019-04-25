@@ -55,19 +55,19 @@ steps:
 kind: secret
 name: github_token
 get:
-  path: secrets/stam
-  name: stam
+  path: drone/github
+  name: token
 
 ---
 kind: secret
 name: docker_password
 get:
-  path: secrets/data/docker
+  path: drone/docker
   name: docker_password
 
 ---
 kind: secret
 name: docker_username
 get:
-  path: secrets/data/docker
+  path: drone/docker
   name: docker_username

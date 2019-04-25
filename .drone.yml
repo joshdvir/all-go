@@ -16,6 +16,9 @@ steps:
   image: plugins/git
   settings:
     tags: true
+  when:
+    event:
+    - tag
 
 - name: release
   pull: default
@@ -28,7 +31,6 @@ steps:
       from_secret: github_token
   when:
     event:
-    - push
     - tag
 
 - name: docker
@@ -48,7 +50,6 @@ steps:
       from_secret: docker_username
   when:
     event:
-    - push
     - tag
 
 ---

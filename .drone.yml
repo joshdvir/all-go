@@ -27,7 +27,7 @@ steps:
   - "curl -sL https://git.io/goreleaser | bash"
   environment:
     GITHUB_TOKEN:
-      from_secret: github_token
+      from_secret: github-token
   when:
     event:
     - tag
@@ -44,30 +44,30 @@ steps:
     - latest
   environment:
     DOCKER_PASSWORD:
-      from_secret: docker_password
+      from_secret: docker-password
     DOCKER_USERNAME:
-      from_secret: docker_username
+      from_secret: docker-username
   when:
     event:
     - tag
 
 ---
 kind: secret
-name: github_token
+name: github-token
 get:
   path: drone/data/github
   name: token
 
 ---
 kind: secret
-name: docker_password
+name: docker-password
 get:
   path: drone/data/docker
   name: docker_password
 
 ---
 kind: secret
-name: docker_username
+name: docker-username
 get:
   path: drone/data/docker
   name: docker_username

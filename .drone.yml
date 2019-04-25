@@ -11,7 +11,7 @@ workspace:
   path: src/bitbucket.org/joshdvir/all-go
 
 steps:
-- name: clone
+- name: cloner
   pull: default
   image: plugins/git
   settings:

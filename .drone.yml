@@ -62,12 +62,12 @@ get:
 kind: secret
 name: docker-password
 get:
-  path: drone/data/docker
+  path: drone/data/dockerhub
   name: password
 
 ---
 kind: secret
 name: docker-username
 get:
-  path: drone/data/docker
+  path: drone/data/dockerhub
   name: username

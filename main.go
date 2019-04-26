@@ -3,9 +3,18 @@ package main
 import (
 	"os"
 	"fmt"
+	"encoding/json"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 )
+
+func PrettyPrint(v interface{}) (err error) {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err == nil {
+					fmt.Println(string(b))
+	}
+	return
+}
 
 func main() {
 	app := iris.New()
@@ -43,7 +52,10 @@ func main() {
 	// app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
 		ctx.Writef("all go!")
 		ctx.StatusCode(200)
-		fmt.Fprintf(os.Stdout, "request: %s", ctx.FormValues())
+		fmt.Println("FormValues: \n")
+		PrettyPrint(ctx.FormValues())
+		fmt.Println("Headers: \n")
+		PrettyPrint(ctx.Request().Header)
 		responseHeaders(ctx, "GET,POST")
 	})
 

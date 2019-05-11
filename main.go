@@ -4,6 +4,7 @@ import (
 	"os"
 	"fmt"
 	"encoding/json"
+	"net/http/httputil"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 )
@@ -52,10 +53,12 @@ func main() {
 	// app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
 		ctx.Writef("all go!")
 		ctx.StatusCode(200)
-		fmt.Println("FormValues: \n")
-		PrettyPrint(ctx.FormValues())
-		fmt.Println("Headers: \n")
-		PrettyPrint(ctx.Request().Header)
+		fmt.Println("Request: \n")
+		requestDump, err := httputil.DumpRequest(ctx.Request(), true)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(requestDump))
 		responseHeaders(ctx, "GET,POST")
 	})
 

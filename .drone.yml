@@ -10,14 +10,14 @@ workspace:
   path: src/bitbucket.org/joshdvir/all-go
 
 steps:
-# - name: cloner
-#   pull: default
-#   image: plugins/git
-#   settings:
-#     tags: true
-#   when:
-#     event:
-#     - tag
+- name: cloner
+  pull: default
+  image: plugins/git
+  settings:
+    tags: true
+  when:
+    event:
+    - tag
 
 - name: release
   pull: default

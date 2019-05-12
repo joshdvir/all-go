@@ -53,11 +53,12 @@ func main() {
 		ctx.StatusCode(iris.StatusOK)
 		ctx.Writef("all go!")
 		fmt.Println("Request: \n")
-		requestDump, err := httputil.DumpRequest(ctx.Request(), true)
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println(string(requestDump))
+		responseHeaders(ctx, "GET,POST")
+	})
+
+	app.Post("/service/v7/haas_sync", func(ctx iris.Context) {
+		ctx.Writef("{\"SyncResponse\":{\"status\":\"success\",\"Users\":0,\"CamerasHash\":\"\",\"Cameras\":[]}}")
+		ctx.StatusCode(iris.StatusOK)
 		responseHeaders(ctx, "GET,POST")
 	})
 
@@ -68,4 +69,9 @@ func responseHeaders(ctx iris.Context, methods string) {
 	ctx.Header("Access-Control-Allow-Origin", "*")
 	ctx.Header("Access-Control-Allow-Methods", methods)
 	ctx.Header("Access-Control-Max-Age", "3600")
+	requestDump, err := httputil.DumpRequest(ctx.Request(), true)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(requestDump))
 }

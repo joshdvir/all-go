@@ -19,6 +19,19 @@ steps:
 #     event:
 #     - tag
 
+- name: release
+  pull: default
+  image: golang:1.10
+  commands:
+  - make deps
+  - "curl -sL https://git.io/goreleaser | bash"
+  environment:
+    GITHUB_TOKEN:
+      from_secret: github-token
+  when:
+    event:
+    - tag
+
 - name: docker
   pull: default
   image: plugins/docker:latest
@@ -34,19 +47,6 @@ steps:
       from_secret: docker-password
     DOCKER_USERNAME:
       from_secret: docker-username
-  when:
-    event:
-    - tag
-
-- name: release
-  pull: default
-  image: golang:1.10
-  commands:
-  - make deps
-  - "curl -sL https://git.io/goreleaser | bash"
-  environment:
-    GITHUB_TOKEN:
-      from_secret: github-token
   when:
     event:
     - tag

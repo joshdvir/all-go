@@ -49,10 +49,9 @@ func main() {
 
 	app.Use(customLogger)
 
-	app.OnAnyErrorCode(customLogger, func(ctx iris.Context) {
-	// app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
+	app.OnErrorCode(iris.StatusNotFound, customLogger, func(ctx iris.Context) {
+		ctx.StatusCode(iris.StatusOK)
 		ctx.Writef("all go!")
-		ctx.StatusCode(200)
 		fmt.Println("Request: \n")
 		requestDump, err := httputil.DumpRequest(ctx.Request(), true)
 		if err != nil {
